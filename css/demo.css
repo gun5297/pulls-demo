@@ -17,6 +17,12 @@ body.demo { margin: 0; background: var(--bg); color: var(--ink); }
 .dm-hero h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
 .dm-desc { max-width: 520px; margin-top: 16px; font-size: 15px; line-height: 1.7; color: var(--ink-3); }
 
+.dm-style { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 0 0 20px; padding: 14px 18px; border-radius: 14px; background: var(--bg-soft); }
+.dm-style__label { font-size: 12px; font-weight: 700; letter-spacing: .08em; color: var(--ink-3); }
+.dm-style__seg { display: flex; gap: 6px; }
+.dm-style__seg .btn { height: 36px; padding: 0 14px; background: #fff; font-size: 13px; }
+.dm-style__seg .btn.is-on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.dm-style__note { flex-basis: 100%; margin: 0; font-size: 12.5px; color: var(--ink-3); }
 .dm-packs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .dm-pack { border-radius: 16px; background: #fff; border: 1px solid var(--line); overflow: hidden; transition: box-shadow .25s var(--ease), transform .25s var(--ease); }
 .dm-pack:hover { box-shadow: 0 16px 40px rgba(17, 17, 17, .08); transform: translateY(-2px); }

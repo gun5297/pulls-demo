@@ -19,9 +19,20 @@
 		for (k in WEIGHTS) { r -= WEIGHTS[k]; if (r <= 0) return Number(k); }
 		return 1;
 	}
+	/* 연출 스타일 : 시네마틱(3D + 실사 캡슐) / 애니메이션(AI 애니 캡슐, 지금은 Lv.6 만) */
+	var STYLE_NOTE = { cinematic: '차분하고 고급스러운 3D 연출. 모든 등급 지원', anime: '트레이너가 캡슐을 던져 정령을 잡는 애니메이션 연출. 지금은 Lv.6 무지개에만 적용, 나머지 등급은 시네마틱으로 재생' };
+	var style = 'cinematic';
+	try { style = localStorage.getItem('pulls_demo_style') || style; } catch (e) {}
+	function setStyle(v) {
+		style = v; try { localStorage.setItem('pulls_demo_style', v); } catch (e) {}
+		document.querySelectorAll('#styleSeg .btn').forEach(function (b) { b.classList.toggle('is-on', b.dataset.style === v); });
+		document.getElementById('styleNote').textContent = STYLE_NOTE[v] || '';
+	}
+	document.getElementById('styleSeg').addEventListener('click', function (e) { var b = e.target.closest('.btn'); if (b) setStyle(b.dataset.style); });
+	setStyle(style);
 	function openUrl(packId, grade) {
 		var p = PACKS[packId] || PACKS.pkm151;
-		var q = new URLSearchParams({ g: grade, name: p.name, price: p.price, img: 'assets/cards/g' + grade + '.png' });
+		var q = new URLSearchParams({ g: grade, s: style, name: p.name, price: p.price, img: 'assets/cards/g' + grade + '.png' });
 		var url = 'open.html?' + q.toString();
 		return innerWidth >= 900 ? 'frame.html#' + encodeURIComponent(url) : url;
 	}
