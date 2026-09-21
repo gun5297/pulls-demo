@@ -30,7 +30,7 @@
 	/* 캡슐 모드 : config.reveal.capsule = { intro, wait, open: { 등급: 파일 } } — 해당 등급의 개봉 클립이 있을 때만.
 	   여러 연출 스타일이 있으면 config.reveal.capsules = { 스타일이름: {...} } 에 두고 ?s=스타일이름 으로 고른다 */
 	var styleName = q.get('s') || cfg.defaultStyle || '';
-	var capCfg = (cfg.capsules && (cfg.capsules[styleName] || cfg.capsules[cfg.defaultStyle])) || cfg.capsule;
+	var capCfg = (cfg.capsules && (cfg.capsules[styleName] || cfg.capsules[result.grade] || cfg.capsules[cfg.defaultStyle])) || cfg.capsule;
 	var CAP = capCfg && capCfg.open && capCfg.open[result.grade] ? capCfg : null;
 
 	/* ---------- 등급 색 주입 ---------- */
