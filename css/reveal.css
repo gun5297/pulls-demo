@@ -41,6 +41,14 @@ body.reveal { margin: 0; background: #050507; color: var(--ink); overflow: hidde
 	.rv-video video { object-fit: contain; }
 	.rv-video .rv-video__bg { display: block; object-fit: cover; filter: blur(48px) brightness(.45) saturate(1.2); transform: scale(1.15); }
 }
+/* 캡슐 모드 대기 : 대기 루프 위에 등급 빛과 탭 안내 */
+.rv-video__glow { position: absolute; left: 50%; top: 50%; width: 90vmin; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(closest-side, var(--g) 0%, transparent 65%); mix-blend-mode: screen; opacity: 0; pointer-events: none; transition: opacity .8s var(--ease); }
+.rv-video.is-wait .rv-video__glow { opacity: .55; animation: rv-breathe 1.8s ease-in-out infinite; }
+.rv-video.is-rainbow .rv-video__glow { background: conic-gradient(from 0deg, #7fb2ff, #ff8bb8, #ffd66e, #7bf0c8, #7fb2ff); -webkit-mask: radial-gradient(closest-side, #000 0%, transparent 65%); mask: radial-gradient(closest-side, #000 0%, transparent 65%); }
+.rv-video__hint { position: absolute; left: 50%; bottom: max(64px, calc(env(safe-area-inset-bottom) + 56px)); transform: translate(-50%, 6px); display: inline-flex; align-items: center; gap: 8px; margin: 0; font-size: 14px; font-weight: 600; color: #fff; white-space: nowrap; opacity: 0; transition: opacity .5s var(--ease), transform .5s var(--ease); pointer-events: none; }
+.rv-video.is-wait .rv-video__hint { opacity: 1; transform: translate(-50%, 0); }
+.rv-video.is-wait { cursor: pointer; }
+.rv-video.is-wait .rv-skip, .rv-video.is-opening .rv-skip { opacity: 0; pointer-events: none; }
 .rv-skip { position: absolute; right: max(16px, env(safe-area-inset-right)); top: max(16px, env(safe-area-inset-top)); height: 34px; padding: 0 14px; border-radius: var(--radius-pill); background: rgba(255, 255, 255, .12); color: rgba(255, 255, 255, .8); font-size: 12.5px; font-weight: 600; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; transition: opacity .3s var(--ease); }
 .rv-video.is-playing .rv-skip { opacity: 1; }
 
@@ -84,6 +92,11 @@ body.reveal { margin: 0; background: #050507; color: var(--ink); overflow: hidde
 .rv-stage.is-torn .rv-hint { opacity: 0; pointer-events: none; }
 .rv-hint__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--g); box-shadow: 0 0 0 0 color-mix(in srgb, var(--g) 45%, transparent); animation: rv-pulse 1.6s ease-out infinite; }
 @keyframes rv-pulse { 100% { box-shadow: 0 0 0 10px transparent; } }
+
+/* 캡슐 모드 : 슬리브 없이 카드만 흰 화면에서 올라옴 */
+.rv-stage.is-direct .rv-sleeve, .rv-stage.is-direct .rv-hint { display: none; }
+.rv-stage.is-direct .rv-card { transform: translateY(40%) scale(.8); }
+.rv-stage.is-direct.is-out .rv-card { transform: translateY(0) scale(1); }
 
 /* 카드 : 슬리브 안에서 위로 올라옴 → 정면 → 포인터 틸트 */
 .rv-card { position: absolute; inset: 0; z-index: 2; transform: translateY(18%) scale(.92); transition: transform 1.1s cubic-bezier(.2, .8, .2, 1); }

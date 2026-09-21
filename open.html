@@ -28,6 +28,10 @@
 	<section class="rv-video" id="videoStage" hidden>
 		<video id="videoBg" class="rv-video__bg" playsinline muted preload="auto" aria-hidden="true"></video>
 		<video id="video" playsinline muted preload="auto"></video>
+		<video id="videoWait" playsinline muted preload="auto" hidden></video>
+		<video id="videoOpen" playsinline muted preload="auto" hidden></video>
+		<div class="rv-video__glow"></div>
+		<p class="rv-video__hint"><span class="rv-hint__dot"></span>탭해서 열기</p>
 		<button type="button" class="rv-skip" id="btnSkip">건너뛰기</button>
 	</section>
 
@@ -63,7 +67,7 @@
 	</section>
 
 	<script src="js/config.js"></script>
-	<script>window.TCG_CONFIG.reveal = { videoBase: 'video/', videoSuffix: '.mp4' };</script>
+	<script>window.TCG_CONFIG.reveal = { videoBase: 'video/', videoSuffix: '.mp4', capsule: { intro: 'video/cap-A.mp4', wait: 'video/cap-W.mp4', open: { 6: 'video/cap-B6.mp4' } } };</script>
 	<script src="js/reveal.js"></script>
 </body>
 </html>
