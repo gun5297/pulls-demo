@@ -1,0 +1,66 @@
+/* PULLS 개봉 데모 : 팩 선택 화면 + PC용 폰 프레임 */
+.demo *, .demo *::before, .demo *::after { box-sizing: border-box; }
+body.demo { margin: 0; background: var(--bg); color: var(--ink); }
+.demo a { text-decoration: none; }
+.demo h1, .demo h2, .demo h3, .demo p, .demo ol { margin: 0; }
+.demo ol { padding: 0; list-style: none; }
+.demo button { font: inherit; cursor: pointer; }
+.demo .btn { text-decoration: none; }
+
+.dm-head { display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 var(--gutter); border-bottom: 1px solid var(--line); }
+.dm-brand { font-size: 22px; color: var(--ink); }
+.dm-tag { padding: 5px 10px; border-radius: 6px; background: var(--ink); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+
+.dm-main { max-width: 960px; margin: 0 auto; padding: 0 var(--gutter) 80px; }
+.dm-hero { padding: clamp(40px, 8vw, 80px) 0 32px; }
+.dm-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .16em; color: var(--ink-3); margin-bottom: 16px; }
+.dm-hero h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
+.dm-desc { max-width: 520px; margin-top: 16px; font-size: 15px; line-height: 1.7; color: var(--ink-3); }
+
+.dm-packs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.dm-pack { border-radius: 16px; background: #fff; border: 1px solid var(--line); overflow: hidden; transition: box-shadow .25s var(--ease), transform .25s var(--ease); }
+.dm-pack:hover { box-shadow: 0 16px 40px rgba(17, 17, 17, .08); transform: translateY(-2px); }
+.dm-pack__img { aspect-ratio: 1; background: var(--bg-tile); }
+.dm-pack__img img { width: 100%; height: 100%; object-fit: contain; padding: 12%; mix-blend-mode: darken; }
+.dm-pack__body { padding: 16px 18px 18px; }
+.dm-pack h2 { font-size: 15px; font-weight: 700; letter-spacing: -0.01em; line-height: 1.35; min-height: 2.7em; }
+.dm-pack__meta { margin-top: 4px; font-size: 12.5px; color: var(--ink-3); }
+.dm-pack__row { display: flex; align-items: center; justify-content: space-between; margin-top: 14px; }
+.dm-pack__row b { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
+
+.dm-grades { margin-top: 56px; padding: 28px; border-radius: 16px; background: var(--bg-soft); }
+.dm-grades__head h3 { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; }
+.dm-grades__head p { margin-top: 4px; font-size: 13px; color: var(--ink-3); }
+.dm-grades__list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.dm-grade { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 10px; border-radius: var(--radius-pill); border: 1px solid var(--line-2); background: #fff; font-size: 13px; font-weight: 700; color: var(--ink-2); transition: border-color var(--t) var(--ease), transform var(--t) var(--ease); }
+.dm-grade:hover { border-color: var(--ink); transform: translateY(-1px); }
+.dm-grade i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 2px #fff inset; }
+.dm-grade--6 i { background: var(--holo); }
+.dm-grade--1 i { border: 1px solid var(--line-2); }
+
+.dm-flow { margin-top: 48px; }
+.dm-flow h3 { font-size: 17px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 14px; }
+.dm-flow li { display: flex; gap: 14px; padding: 14px 0; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+.dm-flow li b { flex-shrink: 0; font-size: 12px; font-weight: 800; letter-spacing: .1em; color: var(--mute); padding-top: 3px; }
+
+.dm-foot { padding: 24px var(--gutter); border-top: 1px solid var(--line); font-size: 12px; color: var(--mute); text-align: center; }
+
+@media (max-width: 767px) {
+	.dm-packs { grid-template-columns: 1fr; }
+	.dm-pack { display: grid; grid-template-columns: 112px 1fr; }
+	.dm-pack__img { aspect-ratio: auto; }
+	.dm-pack h2 { min-height: 0; }
+	.dm-grades { padding: 20px; }
+}
+
+/* ---------- PC 용 폰 프레임 (frame.html) ---------- */
+body.frame { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(120% 90% at 50% 40%, #1c1c22 0%, #0a0a0c 70%); }
+.ph { position: relative; width: 390px; height: 844px; max-height: calc(100vh - 48px); aspect-ratio: 390 / 844; border-radius: 48px; background: #000; padding: 12px; box-shadow: 0 40px 100px rgba(0, 0, 0, .6), 0 0 0 2px #2a2a30, 0 0 0 6px #111; }
+.ph__screen { width: 100%; height: 100%; border-radius: 38px; overflow: hidden; background: #050507; }
+.ph__screen iframe { width: 100%; height: 100%; border: 0; display: block; }
+.ph__notch { position: absolute; top: 12px; left: 50%; width: 120px; height: 30px; transform: translateX(-50%); border-radius: 0 0 18px 18px; background: #000; z-index: 2; }
+.ph__side { position: absolute; left: -16px; top: 50%; transform: translateY(-50%); }
+.fr-back { position: fixed; top: 20px; left: 20px; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px; background: rgba(255, 255, 255, .1); color: #fff; font-size: 13px; font-weight: 600; text-decoration: none; }
+.fr-back:hover { background: rgba(255, 255, 255, .18); }
+.fr-note { position: fixed; top: 32px; right: 24px; max-width: 220px; font-size: 12px; line-height: 1.5; color: rgba(255, 255, 255, .45); text-align: right; }
+@media (max-width: 900px) { body.frame { display: block; } .ph { width: 100%; height: 100vh; max-height: none; border-radius: 0; padding: 0; box-shadow: none; } .ph__screen { border-radius: 0; } .ph__notch, .fr-back, .fr-note { display: none; } }

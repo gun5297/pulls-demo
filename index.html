@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="robots" content="noindex, nofollow">
+	<title>PULLS 개봉 데모</title>
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+	<link rel="stylesheet" href="css/tokens.css">
+	<link rel="stylesheet" href="css/demo.css">
+</head>
+<body class="demo">
+	<header class="dm-head">
+		<a class="brand dm-brand" href="./">PULLS</a>
+		<span class="dm-tag">개봉 연출 데모</span>
+	</header>
+
+	<main class="dm-main">
+		<section class="dm-hero">
+			<p class="dm-eyebrow">ONLINE PACK OPENING</p>
+			<h1>팩을 고르고,<br>화면에서 직접 열어 보세요</h1>
+			<p class="dm-desc">결제 없이 연출만 체험하는 데모입니다. 등급은 무작위로 정해지며 실제 확률·재고와 무관합니다.</p>
+		</section>
+
+		<section class="dm-packs" aria-label="팩 선택">
+			<article class="dm-pack" data-pack="pkm151">
+				<div class="dm-pack__img"><img src="assets/pkm151_pack.jpg" alt=""></div>
+				<div class="dm-pack__body">
+					<h2>[일본판] 포켓몬 151 1PACK</h2>
+					<p class="dm-pack__meta">7장 · 미개봉 정품</p>
+					<div class="dm-pack__row"><b>6,000원</b><button type="button" class="btn btn--primary btn--sm dm-open">뽑기</button></div>
+				</div>
+			</article>
+			<article class="dm-pack" data-pack="op12">
+				<div class="dm-pack__img"><img src="assets/op12_pack.jpg" alt=""></div>
+				<div class="dm-pack__body">
+					<h2>[일본판] 원피스 OP-12 1PACK</h2>
+					<p class="dm-pack__meta">6장 · 미개봉 정품</p>
+					<div class="dm-pack__row"><b>5,000원</b><button type="button" class="btn btn--primary btn--sm dm-open">뽑기</button></div>
+				</div>
+			</article>
+			<article class="dm-pack" data-pack="asc">
+				<div class="dm-pack__img"><img src="assets/asc_pack.jpg" alt=""></div>
+				<div class="dm-pack__body">
+					<h2>[북미판] 포켓몬 어센디드 히어로즈 1PACK</h2>
+					<p class="dm-pack__meta">10장 · 영문판</p>
+					<div class="dm-pack__row"><b>8,500원</b><button type="button" class="btn btn--primary btn--sm dm-open">뽑기</button></div>
+				</div>
+			</article>
+		</section>
+
+		<section class="dm-grades">
+			<div class="dm-grades__head">
+				<h3>등급별 연출 보기</h3>
+				<p>무작위 대신 원하는 등급을 골라 바로 볼 수 있습니다</p>
+			</div>
+			<div class="dm-grades__list" id="gradeList"></div>
+		</section>
+
+		<section class="dm-flow">
+			<h3>흐름</h3>
+			<ol>
+				<li><b>01</b><span>팩을 탭하면 등급별로 미리 만든 개봉 영상이 재생됩니다 (5.6초, 건너뛰기 가능)</span></li>
+				<li><b>02</b><span>영상이 끝나면 팩이 등급 색으로 빛나며 기다립니다. 손님이 직접 탭해야 열립니다</span></li>
+				<li><b>03</b><span>팩이 찢어지며 카드가 올라옵니다. 기울이면 홀로 광택, 탭하면 뒤집기</span></li>
+			</ol>
+		</section>
+	</main>
+
+	<footer class="dm-foot">PULLS 온라인 개봉 연출 데모 · 카드 이미지는 자리표시용 샘플입니다</footer>
+
+	<script src="js/demo.js"></script>
+</body>
+</html>

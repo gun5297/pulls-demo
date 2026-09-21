@@ -1,0 +1,127 @@
+/* =========================================================
+   TCG STORE — 카드 개봉 화면 (/reveal/index.html)
+   흐름: 시작(탭) → 등급별 빌드업 영상(어둠) → 흰 화면에서 카드 공개(밝음)
+   등급 색은 --g (본색) / --g-soft (연한색) 로 주입한다.
+   ========================================================= */
+:root { --g: #3f8cff; --g-soft: #9cc4ff; --card-w: min(72vw, 340px); }
+.reveal *, .reveal *::before, .reveal *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body.reveal { margin: 0; background: #050507; color: var(--ink); overflow: hidden; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
+.reveal button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.reveal [hidden] { display: none !important; }
+.reveal .btn { text-decoration: none; }
+
+/* ---------- 공용 : 팩 마크 ---------- */
+.rv-pack__mark { display: block; width: 34%; aspect-ratio: 1; border-radius: 50%; background: var(--holo); -webkit-mask: radial-gradient(circle, transparent 46%, #000 47%, #000 62%, transparent 63%); mask: radial-gradient(circle, transparent 46%, #000 47%, #000 62%, transparent 63%); }
+
+/* ---------- 1. 시작 ---------- */
+.rv-start { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; background: radial-gradient(120% 80% at 50% 40%, #16161b 0%, #050507 70%); color: #fff; }
+.rv-start__brand { position: absolute; top: max(20px, env(safe-area-inset-top)); left: 50%; transform: translateX(-50%); font-size: 20px; color: #fff; }
+.rv-start__pack { width: min(52vw, 220px); cursor: pointer; }
+.rv-pack { position: relative; width: 100%; aspect-ratio: 5 / 7.4; filter: drop-shadow(0 30px 40px rgba(0, 0, 0, .6)); transition: transform .3s var(--ease); animation: rv-float 4.5s ease-in-out infinite; }
+.rv-start__pack:active .rv-pack { transform: scale(.96); }
+@keyframes rv-float { 50% { translate: 0 -10px; } }
+.rv-pack__top { position: absolute; left: -1%; right: -1%; top: 0; height: 10%; border-radius: 10px 10px 3px 3px; background: linear-gradient(180deg, #2c2c33, #1a1a1f); }
+.rv-pack__top::after { content: ""; position: absolute; left: 0; right: 0; bottom: -5px; height: 10px; background: radial-gradient(circle at 5px 0, transparent 4px, #1a1a1f 4.5px) 0 0 / 10px 10px repeat-x; }
+.rv-pack__body { position: absolute; inset: 9% 0 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10%; border-radius: 12px; background: linear-gradient(165deg, #1f1f24 0%, #121215 55%, #1b1b20 100%); overflow: hidden; }
+.rv-pack__body::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 25%, rgba(127, 178, 255, .16) 40%, rgba(255, 139, 184, .18) 50%, rgba(255, 214, 110, .16) 60%, transparent 75%); }
+.rv-pack__body b { position: relative; font-size: clamp(9px, 2.6vw, 11px); font-weight: 700; letter-spacing: .32em; color: rgba(255, 255, 255, .7); }
+.rv-start__title { margin: 32px 0 0; font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+.rv-start__desc { margin: 8px 0 0; font-size: 13px; color: rgba(255, 255, 255, .55); }
+.rv-start.is-out { animation: rv-fade-out .4s var(--ease) forwards; }
+@keyframes rv-fade-out { to { opacity: 0; } }
+
+/* ---------- 2. 영상 ----------
+   세로 화면(폰)에서는 꽉 채우고, 가로·넓은 화면(PC/태블릿 가로)에서는 9:16 을 가운데에 두고
+   뒤에 같은 영상을 흐리게 깔아 빈 공간을 채운다 */
+.rv-video { position: fixed; inset: 0; background: #050507; }
+.rv-video video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.rv-video .rv-video__bg { display: none; }
+@media (min-aspect-ratio: 3/4) {
+	.rv-video video { object-fit: contain; }
+	.rv-video .rv-video__bg { display: block; object-fit: cover; filter: blur(48px) brightness(.45) saturate(1.2); transform: scale(1.15); }
+}
+.rv-skip { position: absolute; right: max(16px, env(safe-area-inset-right)); top: max(16px, env(safe-area-inset-top)); height: 34px; padding: 0 14px; border-radius: var(--radius-pill); background: rgba(255, 255, 255, .12); color: rgba(255, 255, 255, .8); font-size: 12.5px; font-weight: 600; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; transition: opacity .3s var(--ease); }
+.rv-video.is-playing .rv-skip { opacity: 1; }
+
+/* ---------- 3. 공개 ---------- */
+.rv-stage { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #fff; overflow: hidden; }
+.rv-glow { position: absolute; left: 50%; top: 42%; width: 140vmax; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(closest-side, var(--g-soft) 0%, rgba(255, 255, 255, 0) 60%); opacity: 0; transition: opacity 1.2s var(--ease); }
+.rv-stage.is-open .rv-glow { opacity: .55; }
+.rv-stage.is-rainbow .rv-glow { background: conic-gradient(from 0deg, #7fb2ff, #ff8bb8, #ffd66e, #7bf0c8, #7fb2ff); -webkit-mask: radial-gradient(closest-side, #000 0%, transparent 60%); mask: radial-gradient(closest-side, #000 0%, transparent 60%); animation: rv-spin 12s linear infinite; }
+@keyframes rv-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+.rv-scene { position: relative; width: var(--card-w); aspect-ratio: 63 / 88; margin-top: -6vh; perspective: 1200px; }
+
+/* 슬리브(팩 아랫부분) : 카드 앞을 가리고 있다가 찢어지며 내려감 */
+.rv-sleeve { position: absolute; left: -6%; right: -6%; top: 22%; bottom: -22%; z-index: 3; transform-style: preserve-3d; }
+.rv-sleeve__body { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12%; border-radius: 0 0 14px 14px; background: linear-gradient(165deg, #1f1f24 0%, #121215 55%, #1b1b20 100%); box-shadow: 0 30px 60px rgba(17, 17, 17, .25); overflow: hidden; }
+.rv-sleeve__body::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 25%, rgba(127, 178, 255, .16) 40%, rgba(255, 139, 184, .18) 50%, rgba(255, 214, 110, .16) 60%, transparent 75%); }
+.rv-sleeve__body b { position: relative; font-size: 10px; font-weight: 700; letter-spacing: .32em; color: rgba(255, 255, 255, .6); }
+/* 찢긴 윗조각 : 톱니 모양으로 위로 튀어 오르며 사라짐 */
+.rv-sleeve__tear { position: absolute; left: 0; right: 0; top: -14%; height: 16%; background: linear-gradient(180deg, #2c2c33, #1a1a1f); clip-path: polygon(0 0, 100% 0, 100% 62%, 94% 100%, 88% 66%, 81% 100%, 74% 70%, 67% 100%, 60% 64%, 53% 100%, 46% 70%, 39% 100%, 32% 66%, 25% 100%, 18% 68%, 11% 100%, 5% 64%, 0 100%); transform-origin: 20% 100%; }
+.rv-sleeve__body::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 14px; background: #fff; clip-path: polygon(0 0, 100% 0, 100% 30%, 94% 100%, 88% 34%, 81% 100%, 74% 40%, 67% 100%, 60% 30%, 53% 100%, 46% 40%, 39% 100%, 32% 34%, 25% 100%, 18% 38%, 11% 100%, 5% 30%, 0 100%); opacity: 0; }
+.rv-stage.is-torn .rv-sleeve__body::after { opacity: 1; }
+.rv-stage.is-torn .rv-sleeve__tear { animation: rv-tear .7s cubic-bezier(.3, .9, .3, 1) forwards; }
+@keyframes rv-tear { 30% { transform: translateY(-30%) rotate(-6deg); opacity: 1; } 100% { transform: translate(-40%, -260%) rotate(-28deg); opacity: 0; } }
+.rv-stage.is-out .rv-sleeve { animation: rv-sleeve-out .8s var(--ease) .1s forwards; }
+@keyframes rv-sleeve-out { to { transform: translateY(70%) rotateX(-18deg); opacity: 0; } }
+
+/* 대기 : 슬리브가 등급 색으로 숨 쉬듯 빛나고, 탭 안내가 뜬다 */
+.rv-sleeve { cursor: pointer; }
+.rv-sleeve::before { content: ""; position: absolute; inset: -22% -26% -16%; border-radius: 30px; background: radial-gradient(55% 55% at 50% 35%, var(--g) 0%, transparent 70%); filter: blur(28px); opacity: 0; z-index: -1; transition: opacity .6s var(--ease); }
+.rv-stage.is-ready .rv-sleeve::before { opacity: .9; animation: rv-breathe 1.8s ease-in-out infinite; }
+.rv-stage.is-ready .rv-sleeve__body { box-shadow: 0 30px 60px rgba(17, 17, 17, .25), 0 0 0 1.5px color-mix(in srgb, var(--g) 80%, #fff), 0 0 36px 4px color-mix(in srgb, var(--g) 55%, transparent); }
+.rv-stage.is-ready.is-rainbow .rv-sleeve__body { box-shadow: 0 30px 60px rgba(17, 17, 17, .25), 0 0 0 1.5px #fff, 0 0 36px 6px rgba(255, 139, 184, .45), 0 0 60px 10px rgba(127, 178, 255, .35); }
+.rv-stage.is-ready .rv-sleeve { animation: rv-nudge 1.8s ease-in-out infinite; }
+.rv-stage.is-rainbow .rv-sleeve::before { background: conic-gradient(from 0deg, #7fb2ff, #ff8bb8, #ffd66e, #7bf0c8, #7fb2ff); -webkit-mask: radial-gradient(60% 50% at 50% 30%, #000 0%, transparent 70%); mask: radial-gradient(60% 50% at 50% 30%, #000 0%, transparent 70%); }
+@keyframes rv-breathe { 50% { opacity: .45; } }
+@keyframes rv-nudge { 50% { transform: translateY(-4px); } }
+.rv-sleeve__body::before { transition: opacity .6s var(--ease); }
+.rv-stage.is-ready .rv-sleeve__tear { box-shadow: 0 -2px 18px color-mix(in srgb, var(--g) 70%, transparent); }
+.rv-hint { position: absolute; left: 50%; bottom: -36%; z-index: 4; display: inline-flex; align-items: center; gap: 8px; margin: 0; white-space: nowrap; font-size: 14px; font-weight: 600; color: var(--ink-2); opacity: 0; transform: translateY(6px); transition: opacity .5s var(--ease), transform .5s var(--ease); cursor: pointer; transform: translate(-50%, 6px); }
+.rv-stage.is-ready .rv-hint { opacity: 1; transform: translate(-50%, 0); }
+.rv-stage.is-torn .rv-hint { opacity: 0; pointer-events: none; }
+.rv-hint__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--g); box-shadow: 0 0 0 0 color-mix(in srgb, var(--g) 45%, transparent); animation: rv-pulse 1.6s ease-out infinite; }
+@keyframes rv-pulse { 100% { box-shadow: 0 0 0 10px transparent; } }
+
+/* 카드 : 슬리브 안에서 위로 올라옴 → 정면 → 포인터 틸트 */
+.rv-card { position: absolute; inset: 0; z-index: 2; transform: translateY(18%) scale(.92); transition: transform 1.1s cubic-bezier(.2, .8, .2, 1); }
+.rv-stage.is-out .rv-card { transform: translateY(0) scale(1); }
+.rv-card__inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .25s var(--ease); }
+.rv-card.is-tilting .rv-card__inner { transition: transform .08s linear; }
+.rv-card.is-flipped .rv-card__inner { transform: rotateY(calc(180deg + var(--ry, 0deg))) rotateX(var(--rx, 0deg)); }
+.rv-card__front, .rv-card__back { position: absolute; inset: 0; border-radius: 14px; overflow: hidden; -webkit-backface-visibility: hidden; backface-visibility: hidden; box-shadow: 0 30px 60px rgba(17, 17, 17, .22), 0 0 0 1px rgba(17, 17, 17, .06); background: var(--bg-tile); }
+.rv-card__front img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 8%; mix-blend-mode: darken; }
+.rv-card__back { transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; background: #17171b; color: #fff; }
+.rv-card__back .rv-pack__mark { width: 38%; }
+.rv-card__back span { font-size: 12px; font-weight: 800; letter-spacing: .3em; opacity: .7; }
+.rv-card__holo { position: absolute; inset: 0; background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, .25) 48%, rgba(255, 255, 255, 0) 66%, transparent 100%), conic-gradient(from calc(var(--mx, 50) * 3.6deg) at var(--mx, 50%) var(--my, 50%), #ff6d9a, #ffd66e, #7bf0c8, #7fb2ff, #c48bff, #ff6d9a); background-position: calc(var(--mx, 50) * 1%) calc(var(--my, 50) * 1%), 0 0; background-size: 250% 250%, 100% 100%; mix-blend-mode: color-dodge; opacity: 0; transition: opacity .35s var(--ease); pointer-events: none; }
+.rv-card__glare { position: absolute; inset: 0; background: radial-gradient(farthest-corner circle at calc(var(--mx, 50) * 1%) calc(var(--my, 50) * 1%), rgba(255, 255, 255, .5) 0%, rgba(255, 255, 255, .1) 30%, rgba(0, 0, 0, .18) 90%); mix-blend-mode: overlay; opacity: 0; transition: opacity .35s var(--ease); pointer-events: none; }
+.rv-card.is-tilting .rv-card__holo, .rv-stage.is-shine .rv-card__holo { opacity: .5; }
+.rv-card.is-tilting .rv-card__glare { opacity: 1; }
+/* 등장 직후 한 번 지나가는 광택 */
+.rv-stage.is-shine .rv-card__holo { animation: rv-sweep 1.1s var(--ease) forwards; }
+@keyframes rv-sweep { from { background-position: 0% 0%, 0 0; opacity: .6; } to { background-position: 100% 100%, 0 0; opacity: 0; } }
+/* 등급 테두리 빛 */
+.rv-card::after { content: ""; position: absolute; inset: -3px; border-radius: 17px; box-shadow: 0 0 0 2px var(--g), 0 0 40px 6px color-mix(in srgb, var(--g) 45%, transparent); opacity: 0; transition: opacity .6s var(--ease) .6s; pointer-events: none; }
+.rv-stage.is-out .rv-card::after { opacity: 1; }
+.rv-stage.is-rainbow .rv-card::after { box-shadow: 0 0 0 2px #fff, 0 0 40px 8px rgba(255, 139, 184, .35), 0 0 60px 12px rgba(127, 178, 255, .3); }
+
+/* 정보 */
+.rv-info { position: relative; margin-top: 28px; text-align: center; opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity .6s var(--ease) .9s, transform .6s var(--ease) .9s, visibility 0s linear .9s; }
+.rv-stage.is-out .rv-info { opacity: 1; visibility: visible; transform: translateY(0); }
+.rv-grade { display: inline-flex; align-items: center; gap: 8px; height: 30px; padding: 0 12px 0 10px; border-radius: var(--radius-pill); background: var(--g); color: #fff; font-size: 12px; font-weight: 800; letter-spacing: .12em; }
+.rv-grade i { width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+.rv-stage.is-rainbow .rv-grade { background: var(--holo); color: #111; }
+.rv-stage.is-g1 .rv-grade { background: var(--ink); }
+.rv-name { margin: 14px 0 0; font-size: clamp(18px, 5vw, 22px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.3; }
+.rv-meta { margin: 6px 0 0; font-size: 14px; color: var(--ink-3); }
+.rv-meta b { color: var(--ink); font-weight: 700; }
+.rv-actions { display: flex; justify-content: center; gap: 8px; margin-top: 22px; }
+.rv-actions .btn { height: 46px; padding: 0 22px; }
+
+@media (prefers-reduced-motion: reduce) {
+	.rv-pack, .rv-glow { animation: none; }
+	.rv-card, .rv-info, .rv-card__inner { transition-duration: .01s; }
+}

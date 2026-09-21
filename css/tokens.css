@@ -1,0 +1,99 @@
+/* =========================================================
+   TCG STORE — Design tokens
+   색, 서체, 간격, 컨테이너. 모든 스타일은 이 변수를 참조한다.
+   (Pretendard 웹폰트는 layout.html의 <link>로 로드)
+   ========================================================= */
+:root {
+	/* 서체 */
+	--font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, Roboto, sans-serif;
+
+	/* 색 — 무채색 중심, 강조색은 재고/할인 정보에만 */
+	--ink: #111111;
+	--ink-2: #3d3d3b;
+	--ink-3: #6f6f6c;
+	--mute: #9c9c98;
+	--line: #e9e9e6;
+	--line-2: #d7d7d3;
+	--bg: #ffffff;
+	--bg-soft: #f7f7f5;
+	--bg-tile: #f2f2ef;
+	--accent: #c8412b;
+	--ok: #1f7a4d;
+	--live: #e0362c;
+	--live-text: #c8301f;
+	--holo: conic-gradient(from 0deg, #7fb2ff, #ff8bb8, #ffd66e, #7bf0c8, #7fb2ff);
+
+	/* 카페24 공통 CSS 변수 덮어쓰기 */
+	--font-color-base: var(--ink);
+	--font-color-heading: var(--ink);
+	--font-color-primary: var(--ink);
+	--font-color-secondary: var(--accent);
+	--font-color-warn: var(--accent);
+	--font-color-success: var(--ok);
+
+	/* 레이아웃 */
+	--container: 1440px;
+	--gutter: clamp(16px, 4vw, 48px);
+	--h-header: 72px;
+	--radius: 8px;
+	--radius-sm: 4px;
+	--radius-pill: 999px;
+
+	/* 모션 */
+	--ease: cubic-bezier(.2, .7, .2, 1);
+	--t: .22s;
+}
+
+@media (max-width: 767px) {
+	:root { --h-header: 56px; }
+}
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body, code, input, select, textarea, button { font-family: var(--font-sans) !important; }
+body {
+	font-size: 14px;
+	line-height: 1.55;
+	color: var(--ink);
+	background: var(--bg);
+	letter-spacing: -0.01em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	min-width: 320px;
+}
+a { color: inherit; }
+a:hover { text-decoration: none; }
+img, svg, video { max-width: 100%; height: auto; }
+button { color: inherit; }
+::selection { background: var(--ink); color: #fff; }
+
+/* 카페24가 붙이는 숨김 클래스 : 어떤 display 규칙보다 우선 */
+.displaynone { display: none !important; }
+
+/* 공통 컨테이너 */
+.container { width: 100%; max-width: var(--container); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); box-sizing: border-box; }
+
+/* 공통 버튼 */
+.btn { box-sizing: border-box; max-width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; letter-spacing: -0.01em; line-height: 1; border: 1px solid transparent; cursor: pointer; transition: background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease), transform var(--t) var(--ease); }
+.btn--primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+.btn--primary:hover { background: #000; }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+.btn--ghost:hover { border-color: var(--ink); background: var(--bg-soft); }
+.btn--sm { height: 40px; padding: 0 18px; font-size: 13px; }
+.btn.is-on { background: var(--ink); border-color: var(--ink); color: #fff; } /* 선택된 토글 (칩, 세그먼트) */
+.btn:active { transform: translateY(1px); }
+.btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+.btn[disabled], .btn.is-disabled { opacity: .45; pointer-events: none; }
+
+/* 접근성 */
+.blind { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* 브랜드 워드마크 */
+.brand { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; letter-spacing: -0.04em; text-transform: uppercase; }
+.brand::before { content: ""; width: .55em; height: .55em; border-radius: 50%; background: var(--holo); -webkit-mask: radial-gradient(circle, transparent 46%, #000 48%); mask: radial-gradient(circle, transparent 46%, #000 48%); }
+.brand:has(img)::before { display: none; }
+.brand img { max-height: 36px; width: auto; }
+
+/* LIVE 점 (헤더 혜택 칩 / 카드 태그 / 상세 안내에서 공용) */
+.live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 0 rgba(224, 54, 44, .45); animation: live-pulse 1.6s ease-out infinite; }
+@keyframes live-pulse { 0% { box-shadow: 0 0 0 0 rgba(224, 54, 44, .45); } 100% { box-shadow: 0 0 0 9px rgba(224, 54, 44, 0); } }
