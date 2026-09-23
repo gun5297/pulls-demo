@@ -68,6 +68,16 @@
 		video.hidden = true; videoWait.hidden = false;
 		var p = videoWait.play(); if (p && p.catch) p.catch(function () {});
 		videoStage.classList.add('is-wait');
+		placeGlow();
+		if (!placeGlow.bound) { placeGlow.bound = true; window.addEventListener('resize', placeGlow); }
+	}
+	/* 대기 클립 속 캡슐 위치에 등급 빛을 맞춘다 : capCfg.glow = { x, y, r } (영상 프레임 기준 비율, 기본 중앙) */
+	function placeGlow() {
+		var g = (CAP && CAP.glow) || { x: .5, y: .5, r: .5 }, el = videoStage.querySelector('.rv-video__glow');
+		var W = videoStage.clientWidth, H = videoStage.clientHeight, vw = videoWait.videoWidth || 1080, vh = videoWait.videoHeight || 1920;
+		var cover = getComputedStyle(videoWait).objectFit !== 'contain';
+		var scale = (cover ? Math.max : Math.min)(W / vw, H / vh), cw = vw * scale, ch = vh * scale, ox = (W - cw) / 2, oy = (H - ch) / 2;
+		el.style.left = (ox + cw * g.x) + 'px'; el.style.top = (oy + ch * g.y) + 'px'; el.style.width = (cw * g.r * 2) + 'px';
 	}
 	/* 캡슐 모드 : 탭 → 개봉 클립 → 흰 화면에서 카드가 바로 올라옴 */
 	function openCapsule() {
@@ -153,6 +163,9 @@
 	TCG.ready(function () {
 		document.title = 'PULLS 개봉';   /* 카페24가 <title>을 몰 이름으로 덮어씀 */
 		renderInfo();
+		/* 뽑기 흐름에서 열렸을 때 : 개봉 후 결과 화면(또는 상세)으로 돌아가는 링크 */
+		var next = q.get('next');
+		if (next && /^[a-z-]+\.html/.test(next)) { var bo = $('#btnOrders'); bo.href = next; bo.textContent = q.get('n') ? '전체 결과 보기' : '돌아가기'; }
 		prepareVideo();
 		$('#startPack').addEventListener('click', playVideo);
 		$('#btnSkip').addEventListener('click', function () { if (CAP && !videoStage.classList.contains('is-wait') && !videoStage.classList.contains('is-opening')) showWait(); else if (!CAP) showReveal(); });

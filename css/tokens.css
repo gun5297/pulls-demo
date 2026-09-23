@@ -5,18 +5,20 @@
    ========================================================= */
 :root {
 	/* 서체 */
-	--font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, Roboto, sans-serif;
+	--font-sans: "Wanted Sans Variable", "Wanted Sans", "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", system-ui, Roboto, sans-serif;
+
+	--font-serif: "Gowun Batang", "Apple SD Gothic Neo", serif;
 
 	/* 색 — 무채색 중심, 강조색은 재고/할인 정보에만 */
-	--ink: #111111;
-	--ink-2: #3d3d3b;
-	--ink-3: #6f6f6c;
-	--mute: #9c9c98;
-	--line: #e9e9e6;
-	--line-2: #d7d7d3;
-	--bg: #ffffff;
-	--bg-soft: #f7f7f5;
-	--bg-tile: #f2f2ef;
+	--ink: #1b1b1f;
+	--ink-2: #45454b;
+	--ink-3: #7a7a82;
+	--mute: #a6a6ad;
+	--line: #ececea;
+	--line-2: #dddcd8;
+	--bg: #fbfbf9;
+	--bg-soft: #f3f3f0;
+	--bg-tile: #ecece8;
 	--accent: #c8412b;
 	--ok: #1f7a4d;
 	--live: #e0362c;
@@ -35,7 +37,7 @@
 	--container: 1440px;
 	--gutter: clamp(16px, 4vw, 48px);
 	--h-header: 72px;
-	--radius: 8px;
+	--radius: 12px;
 	--radius-sm: 4px;
 	--radius-pill: 999px;
 
@@ -51,11 +53,13 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body, code, input, select, textarea, button { font-family: var(--font-sans) !important; }
 body {
-	font-size: 14px;
-	line-height: 1.55;
+	font-size: 15px;
+	line-height: 1.65;
 	color: var(--ink);
 	background: var(--bg);
-	letter-spacing: -0.01em;
+	letter-spacing: 0;
+	word-break: keep-all;
+	overflow-wrap: break-word;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	min-width: 320px;
@@ -73,7 +77,7 @@ button { color: inherit; }
 .container { width: 100%; max-width: var(--container); margin: 0 auto; padding-left: var(--gutter); padding-right: var(--gutter); box-sizing: border-box; }
 
 /* 공통 버튼 */
-.btn { box-sizing: border-box; max-width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; letter-spacing: -0.01em; line-height: 1; border: 1px solid transparent; cursor: pointer; transition: background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease), transform var(--t) var(--ease); }
+.btn { box-sizing: border-box; max-width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 24px; border-radius: var(--radius-pill); font-size: 14px; font-weight: 600; letter-spacing: 0; line-height: 1; border: 1px solid transparent; cursor: pointer; transition: background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease), transform var(--t) var(--ease); }
 .btn--primary { background: var(--ink); color: #fff; border-color: var(--ink); }
 .btn--primary:hover { background: #000; }
 .btn--ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
@@ -89,7 +93,7 @@ button { color: inherit; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* 브랜드 워드마크 */
-.brand { display: inline-flex; align-items: center; gap: 6px; font-weight: 800; letter-spacing: -0.04em; text-transform: uppercase; }
+.brand { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; letter-spacing: -0.02em; text-transform: uppercase; }
 .brand::before { content: ""; width: .55em; height: .55em; border-radius: 50%; background: var(--holo); -webkit-mask: radial-gradient(circle, transparent 46%, #000 48%); mask: radial-gradient(circle, transparent 46%, #000 48%); }
 .brand:has(img)::before { display: none; }
 .brand img { max-height: 36px; width: auto; }
