@@ -66,7 +66,7 @@ PAGES = {
 			<section class="od-sec"><h2>현재 확률</h2><div class="od-prob" id="odProb"></div></section>
 		</div>
 	</div>
-	<div class="od-bar" id="odBar"></div>
+	<div class="od-bar fixbar" id="odBar"></div>
 '''),
 'results.html': ('results', '뽑기 결과 · PULLS', '''
 	<div class="rs" id="rs">

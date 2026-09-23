@@ -4,7 +4,7 @@
 - build_pages.py 나 css/js 가 바뀌면 페이지 HTML 을 다시 생성 (?v= 스탬프 갱신)
 - css/js/html 이 바뀌면 열려 있는 브라우저 탭을 자동 새로고침 (SSE)
 """
-import http.server, os, socket, sys, threading, time
+import http.server, importlib, os, socket, sys, threading, time
 import build_pages
 ROOT = build_pages.ROOT
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else 8000
@@ -32,7 +32,7 @@ def watcher():
         changed = [p for p in cur if cur.get(p) != prev.get(p)] + [p for p in prev if p not in cur]
         if changed:
             if any(p.endswith(('build_pages.py', 'stamp.py', '.css', '.js')) for p in changed):
-                build_pages.build(); cur = snapshot()
+                importlib.reload(build_pages).build(); cur = snapshot()
             with changed_cond:
                 version[0] += 1; changed_cond.notify_all()
             print(time.strftime('%H:%M:%S'), 'reload ←', ', '.join(os.path.relpath(p, ROOT) for p in changed[:4]), flush=True)

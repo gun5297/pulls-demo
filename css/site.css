@@ -314,7 +314,7 @@ body.site { margin: 0; background: var(--bg); color: var(--ink); }
 .rs-top > * { position: relative; }
 .rs-top .cardthumb { width: clamp(160px, 40vw, 220px); box-shadow: 0 30px 70px rgba(0, 0, 0, .55); }
 .rs-top .cardthumb:hover { transform: none; }
-.rs-top .chk { top: 16px; left: 16px; width: 26px; height: 26px; border-color: rgba(255, 255, 255, .7); background: rgba(255, 255, 255, .12); }
+.rs-top .chk { position: absolute; top: 16px; left: 16px; width: 26px; height: 26px; border-color: rgba(255, 255, 255, .7); background: rgba(255, 255, 255, .12); }
 .rs-top.is-sel { box-shadow: 0 0 0 3px var(--c); }
 .rs-top.is-sel > .chk { background: #fff; }
 .rs-top.is-sel > .chk::after { border-color: #111; left: 9px; top: 5px; }
@@ -356,7 +356,7 @@ body.site { margin: 0; background: var(--bg); color: var(--ink); }
 	.rs-card .status { height: 20px; padding: 0 6px; font-size: 10px; line-height: 20px; }
 	.rs-group__head { gap: 8px; }
 	.rs-group__head span { font-size: 12px; }
-	.rs-bar.fixbar { left: 12px; right: 12px; bottom: calc(66px + env(safe-area-inset-bottom)); padding: 12px 14px; border-radius: 20px; border: 0; background: #111; }
+	.rs-bar.fixbar { position: fixed; left: 12px; right: 12px; bottom: calc(66px + env(safe-area-inset-bottom)); padding: 12px 14px; border-radius: 20px; border: 0; background: #111; }
 	.rs-bar .btn { height: 34px; padding: 0 12px; font-size: 12px; }
 	.rs-actions .btn { flex: 1; }
 }
